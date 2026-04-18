@@ -1,0 +1,9 @@
+{
+  "name": "wdim-signup",
+  "version": "1.0.0",
+  "description": "WDIM — Why Did It Move signup page",
+  "type": "module",
+  "dependencies": {
+    "resend": "^4.0.0"
+  }
+}

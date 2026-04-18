@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WDIM — Why Did It Move</title>
+  <meta name="description" content="A free daily email breaking down the biggest stock movers across S&P 500, S&P 400, FTSE 250 and AIM 100 — and why they moved." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f8fafc;
+      color: #111827;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: #1d4ed8;
+      padding: 64px 24px 56px;
+      text-align: center;
+    }
+
+    .hero-emojis {
+      font-size: 48px;
+      line-height: 1;
+      margin-bottom: 20px;
+      letter-spacing: 4px;
+    }
+
+    .hero-eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #93c5fd;
+      margin-bottom: 12px;
+    }
+
+    .hero-title {
+      font-size: clamp(32px, 6vw, 52px);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .hero-title span {
+      color: #93c5fd;
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      color: #bfdbfe;
+      max-width: 480px;
+      margin: 0 auto 36px;
+      line-height: 1.6;
+    }
+
+    /* ── Form ── */
+    .form-wrap {
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .form-input {
+      flex: 1;
+      padding: 14px 16px;
+      font-size: 15px;
+      border: none;
+      border-radius: 10px;
+      outline: none;
+      background: #fff;
+      color: #111827;
+    }
+
+    .form-input::placeholder { color: #9ca3af; }
+
+    .form-btn {
+      padding: 14px 22px;
+      font-size: 15px;
+      font-weight: 700;
+      background: #111827;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background .15s, transform .1s;
+    }
+
+    .form-btn:hover  { background: #1f2937; }
+    .form-btn:active { transform: scale(.97); }
+    .form-btn:disabled { opacity: .6; cursor: not-allowed; }
+
+    .form-note {
+      font-size: 12px;
+      color: #93c5fd;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .form-msg {
+      margin-top: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+      min-height: 20px;
+    }
+    .form-msg.success { color: #86efac; }
+    .form-msg.error   { color: #fca5a5; }
+
+    /* ── What you get ── */
+    .section {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 56px 24px;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #1d4ed8;
+      background: #dbeafe;
+      border-radius: 9999px;
+      padding: 3px 12px;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: #111827;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    .section-body {
+      font-size: 16px;
+      color: #374151;
+      line-height: 1.7;
+      margin-bottom: 36px;
+    }
+
+    /* ── Feature grid ── */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 8px;
+    }
+
+    .feature {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .feature-icon { font-size: 22px; margin-bottom: 10px; }
+
+    .feature-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 4px;
+    }
+
+    .feature-desc {
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.5;
+    }
+
+    /* ── Indices ── */
+    .indices {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .index-pill {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      background: #f1f5f9;
+      color: #334155;
+      border-radius: 9999px;
+      padding: 5px 14px;
+      border: 1px solid #e2e8f0;
+    }
+
+    /* ── Sample card ── */
+    .sample-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .sample-header {
+      background: #1d4ed8;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .sample-header-emoji { font-size: 24px; }
+
+    .sample-header-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .sample-header-sub {
+      font-size: 12px;
+      color: #93c5fd;
+      margin-top: 1px;
+    }
+
+    .sample-body { padding: 20px 24px; }
+
+    .sample-mover {
+      border-left: 4px solid #16a34a;
+      padding: 12px 16px;
+      background: #f9fafb;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 12px;
+    }
+
+    .sample-mover-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 4px;
+    }
+
+    .sample-mover-name { font-size: 14px; font-weight: 700; color: #111827; }
+    .sample-mover-pct  { font-size: 14px; font-weight: 700; color: #16a34a; }
+    .sample-mover-ticker { font-size: 11px; color: #9ca3af; margin-bottom: 8px; }
+
+    .sample-pill {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: #1d4ed8;
+      background: #dbeafe;
+      border-radius: 9999px;
+      padding: 2px 8px;
+      margin-bottom: 4px;
+    }
+
+    .sample-text { font-size: 12px; color: #374151; line-height: 1.6; }
+    .sample-text strong { font-weight: 700; }
+
+    /* ── Bottom CTA ── */
+    .bottom-cta {
+      background: #1d4ed8;
+      padding: 56px 24px;
+      text-align: center;
+    }
+
+    .bottom-cta h2 {
+      font-size: 26px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .bottom-cta p {
+      font-size: 16px;
+      color: #bfdbfe;
+      margin-bottom: 28px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      color: #9ca3af;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    @media (max-width: 480px) {
+      .form-row { flex-direction: column; }
+      .form-btn  { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Hero ── -->
+  <section class="hero">
+    <div class="hero-emojis">🐻 🐂</div>
+    <p class="hero-eyebrow">Free daily newsletter</p>
+    <h1 class="hero-title">Why Did It<br><span>Move?</span></h1>
+    <p class="hero-sub">Every morning: the biggest stock movers across four major indices — and a clear, concise explanation of why.</p>
+
+    <div class="form-wrap">
+      <div class="form-row">
+        <input id="email-input" class="form-input" type="email" placeholder="you@example.com" autocomplete="email" />
+        <button id="subscribe-btn" class="form-btn" onclick="subscribe()">Subscribe free</button>
+      </div>
+      <p class="form-note">No spam. Unsubscribe any time.</p>
+      <p id="form-msg" class="form-msg"></p>
+    </div>
+  </section>
+
+  <!-- ── What you get ── -->
+  <section class="section">
+    <span class="section-label">What you get</span>
+    <h2 class="section-title">Your morning market briefing, done.</h2>
+    <p class="section-body">WDIM lands in your inbox each morning with the top 5 risers and fallers across four major indices — each with a tight, AI-powered summary of the likely driver and what to watch next. No fluff, no noise.</p>
+
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">📊</div>
+        <div class="feature-title">Four indices covered</div>
+        <div class="feature-desc">S&amp;P 500, S&amp;P 400, FTSE 250, and AIM 100 — every trading day.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">In your inbox by morning</div>
+        <div class="feature-desc">Automated, delivered before markets open so you're always prepared.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🎯</div>
+        <div class="feature-title">Concise &amp; actionable</div>
+        <div class="feature-desc">Driver + what to watch. Two bullets. No waffle.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🆓</div>
+        <div class="feature-title">Completely free</div>
+        <div class="feature-desc">No paywall. No credit card. Just your email.</div>
+      </div>
+    </div>
+
+    <div class="indices">
+      <span class="index-pill">S&amp;P 500</span>
+      <span class="index-pill">S&amp;P 400</span>
+      <span class="index-pill">FTSE 250</span>
+      <span class="index-pill">AIM 100</span>
+    </div>
+  </section>
+
+  <!-- ── Sample ── -->
+  <section class="section" style="padding-top:0;">
+    <span class="section-label">Sample</span>
+    <h2 class="section-title">What it looks like</h2>
+    <p class="section-body" style="margin-bottom:20px;">Here's a real example from a recent edition.</p>
+
+    <div class="sample-card">
+      <div class="sample-header">
+        <div class="sample-header-emoji">🐻 🐂</div>
+        <div>
+          <div class="sample-header-title">Why Did It Move</div>
+          <div class="sample-header-sub">Friday 18 April 2025 &nbsp;·&nbsp; S&amp;P 500 · S&amp;P 400 · FTSE 250 · AIM 100</div>
+        </div>
+      </div>
+      <div class="sample-body">
+        <div class="sample-mover">
+          <div class="sample-mover-top">
+            <span class="sample-mover-name">ON Semiconductor</span>
+            <span class="sample-mover-pct">▲ +10.4%</span>
+          </div>
+          <div class="sample-mover-ticker">ON</div>
+          <div class="sample-pill">Driver</div>
+          <p class="sample-text">ON Semiconductor's <strong>10.4% surge</strong> was driven by <strong>Bank of America's upgrade</strong>, spotlighting its expanding AI power solutions pipeline and a multi-billion-dollar buyback programme. The move was amplified by <strong>TSMC's 58% quarterly profit jump</strong> and strong AI-driven demand signals.</p>
+          <div class="sample-pill" style="margin-top:10px;">What to watch</div>
+          <p class="sample-text">Monitor whether <strong>earnings estimate revisions</strong> sustain upward momentum or if the rally proves vulnerable to softer demand conditions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Bottom CTA ── -->
+  <section class="bottom-cta">
+    <h2>Ready to stay ahead?</h2>
+    <p>Join readers getting their daily market brief — free, every morning.</p>
+    <div class="form-wrap" style="max-width:440px;margin:0 auto;">
+      <div class="form-row">
+        <input id="email-input-2" class="form-input" type="email" placeholder="you@example.com" autocomplete="email" />
+        <button class="form-btn" onclick="subscribe('email-input-2', 'form-msg-2')">Subscribe free</button>
+      </div>
+      <p class="form-note">No spam. Unsubscribe any time.</p>
+      <p id="form-msg-2" class="form-msg"></p>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 WDIM &nbsp;·&nbsp; Not financial advice &nbsp;·&nbsp; <a href="#" style="color:#9ca3af;">Unsubscribe</a>
+  </footer>
+
+  <script>
+    async function subscribe(inputId = 'email-input', msgId = 'form-msg') {
+      const input = document.getElementById(inputId);
+      const msg   = document.getElementById(msgId);
+      const btn   = document.getElementById('subscribe-btn');
+      const email = input.value.trim();
+
+      if (!email || !email.includes('@')) {
+        msg.textContent = 'Please enter a valid email address.';
+        msg.className = 'form-msg error';
+        return;
+      }
+
+      if (btn) btn.disabled = true;
+      msg.textContent = 'Subscribing…';
+      msg.className = 'form-msg';
+
+      try {
+        const res = await fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          msg.textContent = "🎉 You're in! Check your inbox tomorrow morning.";
+          msg.className = 'form-msg success';
+          input.value = '';
+        } else {
+          msg.textContent = data.error || 'Something went wrong. Please try again.';
+          msg.className = 'form-msg error';
+        }
+      } catch {
+        msg.textContent = 'Network error. Please try again.';
+        msg.className = 'form-msg error';
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    }
+
+    // Allow Enter key to submit
+    ['email-input', 'email-input-2'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('keydown', e => {
+        if (e.key === 'Enter') subscribe(id, id === 'email-input' ? 'form-msg' : 'form-msg-2');
+      });
+    });
+  </script>
+</body>
+</html>
