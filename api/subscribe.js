@@ -42,11 +42,13 @@ export default async function handler(req, res) {
   }
 
   // 2. Fetch latest digest and send as welcome email immediately
+  let debugInfo = {};
   try {
     const digestRes = await fetch(LATEST_DIGEST_URL);
+    debugInfo.fetchStatus = digestRes.status;
     if (digestRes.ok) {
       const html = await digestRes.text();
-      const { error: emailError } = await resend.emails.send({
+      const { data: emailData, error: emailError } = await resend.emails.send({
         from:    fromEmail,
         to:      normalised,
         subject: "Welcome to WDIM. Here's the latest edition.",
@@ -54,6 +56,9 @@ export default async function handler(req, res) {
       });
       if (emailError) {
         console.error('Welcome email error:', emailError);
+        debugInfo.emailError = emailError;
+      } else {
+        debugInfo.emailId = emailData?.id;
       }
     } else {
       console.warn('Could not fetch latest digest — skipping welcome email');
@@ -61,7 +66,8 @@ export default async function handler(req, res) {
   } catch (err) {
     // Don't fail the signup if the welcome email errors
     console.error('Welcome email fetch error:', err);
+    debugInfo.fetchError = err.message;
   }
 
-  return res.status(200).json({ success: true });
+  return res.status(200).json({ success: true, debug: debugInfo });
 }
