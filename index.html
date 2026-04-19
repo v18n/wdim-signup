@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WDIM — Why Did It Move</title>
+  <title>WDIM: Why Did It Move</title>
   <meta name="description" content="A free daily email breaking down the biggest stock movers across S&P 500, S&P 400, FTSE 250 and AIM 100. And why they moved." />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -440,7 +440,7 @@
         const data = await res.json();
 
         if (res.ok) {
-          msg.textContent = "🎉 You're in! Check your inbox tomorrow morning.";
+          msg.textContent = "🎉 You're in! Check your inbox.";
           msg.className = 'form-msg success';
           input.value = '';
         } else {
