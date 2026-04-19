@@ -3,7 +3,7 @@ import { Resend } from 'resend';
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const LATEST_DIGEST_URL =
-  'https://raw.githubusercontent.com/v18n/stock-price-monitor/main/latest.html';
+  'https://raw.githubusercontent.com/v18n/wdim-signup/main/latest.html';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
