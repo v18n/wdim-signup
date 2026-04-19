@@ -37,7 +37,7 @@ export default async function handler(req, res) {
     // Treat "already exists" as success so re-subscribes still get the welcome email
     if (!contactError.message?.toLowerCase().includes('already exists')) {
       console.error('Resend contact error:', contactError);
-      return res.status(500).json({ error: 'Failed to subscribe. Please try again.' });
+      return res.status(500).json({ error: contactError.message || JSON.stringify(contactError) });
     }
   }
 
